@@ -41,6 +41,7 @@ function handleEvents(type: string, eventObject: ClientEvents) {
         META.command = content[0];
         META.commandArgs = content.slice(1);
         META.isMod = message.member?.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS);
+        META.fromGuild = message.guildId !== null;
 
         return messageRepo.delegate(META, eventObject);
     }
@@ -55,18 +56,11 @@ function handleEvents(type: string, eventObject: ClientEvents) {
         return reactionRepo.delegate(META, eventObject);
     }
 
+    // threadCommand
     else if (isThread(eventObject)) {
         const thread = eventObject as ThreadChannel;
         // TODO
     }
-
-
-    // threadCommand
-
-    // META.type = type
-    // META.isMod = client.member.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)
-    // META.fromGuild = client.guildId
-
 }
 
 export default {
