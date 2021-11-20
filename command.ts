@@ -1,12 +1,7 @@
-import { Client, ClientEvents, Message, MessageReaction, Permissions, ThreadChannel } from "discord.js";
-
-interface Meta {
-    type: string,
-    isMod: boolean | undefined,
-    fromGuild: boolean,
-    command?: string,
-    commandArgs?: string[],
-}
+import { ClientEvents, Message, MessageReaction, Permissions, ThreadChannel } from "discord.js";
+import messageRepo from "./command/messageRepo";
+import reactionRepo from "./command/reactionRepo";
+import { Meta } from "./command/interfaces";
 
 function isMessage(eventObj: Message | ClientEvents): eventObj is Message {
     const premise = eventObj as Message;
@@ -35,7 +30,7 @@ function handleEvents(type: string, eventObject: ClientEvents) {
 
     console.log(eventObject);
 
-    //  messageCommand
+    // messageCommand
     if (isMessage(eventObject)) {
         const message = eventObject as Message;
 
@@ -46,7 +41,8 @@ function handleEvents(type: string, eventObject: ClientEvents) {
         META.command = content[0];
         META.commandArgs = content.slice(1);
         META.isMod = message.member?.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS);
-        message.channel.send("PONG");
+
+        return messageRepo.delegate(META, eventObject);
     }
 
     // reactCommand
@@ -55,6 +51,8 @@ function handleEvents(type: string, eventObject: ClientEvents) {
 
         // abort if it's invoked by Forumify itself
         if (react.me) return;
+
+        return reactionRepo.delegate(META, eventObject);
     }
 
     else if (isThread(eventObject)) {
