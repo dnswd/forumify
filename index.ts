@@ -1,10 +1,10 @@
 import { Client, ClientEvents, Intents } from "discord.js";
-import server from './server';
-import cmd from './command'
-
+import server from "./server";
+import cmd from "./command";
+import dotenv from "dotenv";
 
 // const PC = require('@prisma/client').PrismaClient
-require('dotenv').config()
+dotenv.config();
 
 // Prisma init
 // const prisma = new PC()
@@ -18,9 +18,9 @@ const client = new Client({
         Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
     ],
     partials: [
-        'MESSAGE',
-        'CHANNEL',
-        'REACTION'
+        "MESSAGE",
+        "CHANNEL",
+        "REACTION"
     ]
 });
 
@@ -31,24 +31,24 @@ async function main() {
         "messageCreate",
         "threadCreate",
         "messageReactionAdd",
-    ]
+    ];
 
     for (const event of events) {
         client.on(
             event,
-            (eventObject: ClientEvents) => cmd.handleEvents(event, client, eventObject)
-        )
+            (eventObject: ClientEvents) => cmd.handleEvents(event, eventObject)
+        );
     }
 
     client.on("ready", (client: Client) => {
         const user = client.user;
         console.log(`Forumify has been logged in as ${user?.username} (${user?.tag})!`);
-    })
+    });
 
     client.login(process.env.DC_TOKEN);
     server.startServer();
 }
 
 main()
-    .catch(e => console.error(e))
-    // .finally(async () => { await prisma.$disconnect() })
+    .catch(e => console.error(e));
+// .finally(async () => { await prisma.$disconnect() })
