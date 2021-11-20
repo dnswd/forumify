@@ -31,7 +31,6 @@ async function main() {
         "messageCreate",
         "threadCreate",
         "messageReactionAdd",
-        "messageCreate",
     ]
 
     for (const event of events) {
