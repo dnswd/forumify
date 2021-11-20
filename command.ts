@@ -57,7 +57,7 @@ function handleEvents(type: string, eventObject: ClientEvents) {
 
     else if (isThread(eventObject)) {
         const thread = eventObject as ThreadChannel;
-
+        // TODO
     }
 
 
