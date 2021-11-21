@@ -15,7 +15,7 @@ Here are available Server commands:
     /help
         Display this message
 
-    /config
+    /config <args>
         Configure this server, only serevr member with MANAGE_CHANNEL permission
         can use this command. Use \`/config help\` to show available commands.
 
@@ -37,11 +37,9 @@ function delegate(META: Meta, message: Message) {
 
     switch (META.command) {
         case "/ping":
-            // test
-            message.reply(`PONG ${message}`);
+            message.reply("PONG");
             break;
         case "/help":
-            // test
             sendHelp(message);
             break;
         case "/anon":
