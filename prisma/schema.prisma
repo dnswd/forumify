@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Server {
+  guildId     String     @id
+  channels    Channels[] @relation(name: "ServerChannels")
+  starChannel Channels   @relation(name: "StarChannel", fields: [starId], references: [channelId])
+  starId      String
+}
+
+model Channels {
+  channelId     String   @id
+  alias         String?  @unique @db.VarChar(255)
+  server        Server   @relation(name: "ServerChannels", references: [guildId], fields: [serverGuildId])
+  starredIn     Server[] @relation("StarChannel")
+  autoThread    Boolean
+  serverGuildId String
+}
+
+model Students {
+  sso  String         @id
+  tags VerifiedUser[]
+}
+
+model VerifiedUser {
+  tag         String   @id
+  studentId   Students @relation(fields: [studentsSso], references: [sso])
+  studentsSso String
+}

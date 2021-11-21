@@ -2,12 +2,11 @@ import { Client, ClientEvents, Intents } from "discord.js";
 import server from "./server";
 import cmd from "./command";
 import dotenv from "dotenv";
-
-// const PC = require('@prisma/client').PrismaClient
+import { PrismaClient } from "@prisma/client";
 dotenv.config();
 
 // Prisma init
-// const prisma = new PC()
+const prisma = new PrismaClient();
 const client = new Client({
     intents: [
         Intents.FLAGS.GUILDS,
@@ -45,10 +44,16 @@ async function main() {
         console.log(`Forumify has been logged in as ${user?.username} (${user?.tag})!`);
     });
 
+    client.on("error", (error: Error) => {
+        console.error("Unexpected error while logging into Discord.");
+        console.error(error);
+        return;
+    });
+
     client.login(process.env.DC_TOKEN);
     server.startServer();
 }
 
 main()
-    .catch(e => console.error(e));
-// .finally(async () => { await prisma.$disconnect() })
+    .catch(e => console.error(e))
+    .finally(async () => { await prisma.$disconnect(); });
