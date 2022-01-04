@@ -13,7 +13,6 @@ model Server {
   starChannel  Channels    @relation(name: "StarChannel", fields: [starId], references: [channelId])
   starId       String
   starTreshold Int         @default(3)
-  StarCount    StarCount[]
 }
 
 model Channels {
@@ -23,7 +22,6 @@ model Channels {
   starredIn     Server[]    @relation("StarChannel")
   autoThread    Boolean
   serverGuildId String
-  StarCount     StarCount[]
 }
 
 model Students {
@@ -35,13 +33,4 @@ model VerifiedUser {
   tag         String   @id
   studentId   Students @relation(fields: [studentsSso], references: [sso])
   studentsSso String
-}
-
-model StarCount {
-  messageId         String   @id
-  count             Int
-  channel           Channels @relation(fields: [channelsChannelId], references: [channelId])
-  server            Server   @relation(fields: [serverGuildId], references: [guildId])
-  channelsChannelId String
-  serverGuildId     String
 }
