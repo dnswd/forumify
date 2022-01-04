@@ -8,18 +8,18 @@ datasource db {
 }
 
 model Server {
-  guildId      String      @id
-  channels     Channels[]  @relation(name: "ServerChannels")
-  starChannel  Channels    @relation(name: "StarChannel", fields: [starId], references: [channelId])
+  guildId      String     @id
+  channels     Channels[] @relation(name: "ServerChannels")
+  starChannel  Channels   @relation(name: "StarChannel", fields: [starId], references: [channelId])
   starId       String
-  starTreshold Int         @default(3)
+  starTreshold Int        @default(3)
 }
 
 model Channels {
-  channelId     String      @id
-  alias         String?     @unique @db.VarChar(255)
-  server        Server      @relation(name: "ServerChannels", references: [guildId], fields: [serverGuildId])
-  starredIn     Server[]    @relation("StarChannel")
+  channelId     String   @id
+  alias         String?  @unique @db.VarChar(255)
+  server        Server   @relation(name: "ServerChannels", references: [guildId], fields: [serverGuildId])
+  starredIn     Server[] @relation("StarChannel")
   autoThread    Boolean
   serverGuildId String
 }
