@@ -8,19 +8,22 @@ datasource db {
 }
 
 model Server {
-  guildId     String     @id
-  channels    Channels[] @relation(name: "ServerChannels")
-  starChannel Channels   @relation(name: "StarChannel", fields: [starId], references: [channelId])
-  starId      String
+  guildId      String      @id
+  channels     Channels[]  @relation(name: "ServerChannels")
+  starChannel  Channels    @relation(name: "StarChannel", fields: [starId], references: [channelId])
+  starId       String
+  starTreshold Int         @default(3)
+  StarCount    StarCount[]
 }
 
 model Channels {
-  channelId     String   @id
-  alias         String?  @unique @db.VarChar(255)
-  server        Server   @relation(name: "ServerChannels", references: [guildId], fields: [serverGuildId])
-  starredIn     Server[] @relation("StarChannel")
+  channelId     String      @id
+  alias         String?     @unique @db.VarChar(255)
+  server        Server      @relation(name: "ServerChannels", references: [guildId], fields: [serverGuildId])
+  starredIn     Server[]    @relation("StarChannel")
   autoThread    Boolean
   serverGuildId String
+  StarCount     StarCount[]
 }
 
 model Students {
@@ -32,4 +35,13 @@ model VerifiedUser {
   tag         String   @id
   studentId   Students @relation(fields: [studentsSso], references: [sso])
   studentsSso String
+}
+
+model StarCount {
+  messageId         String   @id
+  count             Int
+  channel           Channels @relation(fields: [channelsChannelId], references: [channelId])
+  server            Server   @relation(fields: [serverGuildId], references: [guildId])
+  channelsChannelId String
+  serverGuildId     String
 }
