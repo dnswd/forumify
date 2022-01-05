@@ -8,11 +8,12 @@ datasource db {
 }
 
 model Server {
-  guildId     String     @id
-  channels    Channels[] @relation(name: "ServerChannels")
-  starId      String?
-  alias       String?    @unique @db.VarChar(255)
-  starChannel Channels?  @relation(name: "StarChannel", fields: [starId], references: [channelId])
+  guildId      String     @id
+  alias        String?    @unique @db.VarChar(255)
+  channels     Channels[] @relation(name: "ServerChannels")
+  starChannel  Channels?  @relation(name: "StarChannel", fields: [starId], references: [channelId])
+  starId       String?
+  starTreshold Int        @default(3)
 }
 
 model Channels {

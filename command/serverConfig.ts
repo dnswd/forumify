@@ -2,6 +2,7 @@ import { Message } from "discord.js";
 import { Meta } from "./interfaces";
 import { setAlias } from "./configs/handle";
 import { configureAutoThread } from "./auto-thread/handle";
+import { configureStarChannel } from "./starred-message/handle";
 
 
 function enableAnon(message: Message, isGlobal = false) {
@@ -38,7 +39,8 @@ export function configureServer(META: Meta, message: Message) {
             case "disable-auto-thread":
                 configureAutoThread(message, true);
                 break;
-            case "set-pin-channel":
+            case "set-star-channel":
+                configureStarChannel(META, message);
                 break;
             default:
                 message.reply("Uhh... Wrong configuration command. Do you need `/help`?");
