@@ -1,9 +1,6 @@
 import { Message } from "discord.js";
 import { Meta } from "./interfaces";
-
-function setAlias(newAlias: string, message: Message) {
-    // TODO:
-}
+import { setAlias } from "./configs/handle";
 
 function setServerAlias(newAlias: string, message: Message) {
     // TODO:
