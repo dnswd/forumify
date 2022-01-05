@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import { Meta } from "./interfaces";
-import autoThread from "./auto-thread/handle";
+import { configureAutoThread } from "./auto-thread/handle";
 
 function setAlias(newAlias: string, message: Message) {
     // TODO:
@@ -39,10 +39,10 @@ export function configureServer(META: Meta, message: Message) {
             case "disallow-anon-globally":
                 break;
             case "enable-auto-thread":
-                autoThread(message);
+                configureAutoThread(message);
                 break;
             case "disable-auto-thread":
-                autoThread(message, true);
+                configureAutoThread(message, true);
                 break;
             case "set-pin-channel":
                 break;

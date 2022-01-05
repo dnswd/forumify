@@ -2,7 +2,7 @@ import { Message, TextChannel, GuildChannelManager } from "discord.js";
 import prisma from "../../prisma/client";
 
 
-async function autoThread(message: Message, disable = false) {
+async function configureAutoThread(message: Message, disable = false) {
 
     const channel = message.channel;
     if (!(channel instanceof TextChannel)) return;
@@ -76,4 +76,29 @@ async function checkOrCreateServerDB(message: Message) {
     }
 }
 
-export default autoThread;
+async function resolveAutoThread(message: Message) {
+
+    const channel = await prisma.channels.findUnique({
+        select: {
+            autoThread: true
+        },
+        where: {
+            channelId: message.channelId
+        }
+    });
+
+    if (!channel) return;
+
+    if (channel.autoThread) {
+        // Start a thread with archive duration depends on Guild's default
+        message.startThread({
+            name: message.content.substring(0, 100),
+            reason: "Auto-thread by Forumify"
+        });
+        message.react("⬆");
+        message.react("⬇");
+        // TODO: create an alias for anonymous message
+    }
+}
+
+export { configureAutoThread, resolveAutoThread };

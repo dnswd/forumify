@@ -1,6 +1,7 @@
 import { Message } from "discord.js";
 import { Meta } from "./interfaces";
 import { configureServer } from "./serverConfig";
+import { resolveAutoThread } from "./auto-thread/handle";
 
 function sendHelp(message: Message) {
     const helpContent = `
@@ -31,6 +32,11 @@ To see all available features, visit https://github.com/dnswd/forumify to learn 
     message.channel.send(helpContent);
 }
 
+async function handleDefaultMessage(META: Meta, message: Message) {
+
+    resolveAutoThread(message);
+}
+
 function delegate(META: Meta, message: Message) {
 
     // TODO: handle prefix change
@@ -52,7 +58,8 @@ function delegate(META: Meta, message: Message) {
             configureServer(META, message);
             break;
         default:
-            message.reply("Sorry, I don't quite understand. Do you need `/help`?");
+            handleDefaultMessage(META, message);
+            // message.reply("Sorry, I don't quite understand. Do you need `/help`?");
             break;
     }
     return;
