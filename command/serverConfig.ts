@@ -1,5 +1,6 @@
 import { Message } from "discord.js";
 import { Meta } from "./interfaces";
+import autoThread from "./auto-thread/handle";
 
 function setAlias(newAlias: string, message: Message) {
     // TODO:
@@ -14,10 +15,6 @@ function enableAnon(message: Message, isGlobal = false) {
 }
 
 function disableAnon(message: Message, isGlobal = false) {
-    // TODO:
-}
-
-function autoThread(message: Message) {
     // TODO:
 }
 
@@ -42,8 +39,10 @@ export function configureServer(META: Meta, message: Message) {
             case "disallow-anon-globally":
                 break;
             case "enable-auto-thread":
+                autoThread(message);
                 break;
             case "disable-auto-thread":
+                autoThread(message, true);
                 break;
             case "set-pin-channel":
                 break;
