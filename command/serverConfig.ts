@@ -45,7 +45,7 @@ export function configureServer(META: Meta, message: Message) {
                 break;
             case "disable-auto-thread":
                 break;
-            case "set-pin-channel":
+            case "set-star-channel":
                 break;
             default:
                 message.reply("Uhh... Wrong configuration command. Do you need `/help`?");
