@@ -1,5 +1,6 @@
 import { Message } from "discord.js";
 import { Meta } from "./interfaces";
+import { configureStarChannel } from "./starred-message/handle";
 
 function setAlias(newAlias: string, message: Message) {
     // TODO:
@@ -46,6 +47,7 @@ export function configureServer(META: Meta, message: Message) {
             case "disable-auto-thread":
                 break;
             case "set-star-channel":
+                configureStarChannel(META, message);
                 break;
             default:
                 message.reply("Uhh... Wrong configuration command. Do you need `/help`?");

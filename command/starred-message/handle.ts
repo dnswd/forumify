@@ -1,4 +1,4 @@
-import { MessageReaction, MessageEmbed, TextChannel } from "discord.js";
+import { MessageReaction, MessageEmbed, TextChannel, Message } from "discord.js";
 import { Meta } from "../interfaces";
 import prisma from "../../prisma/client";
 
@@ -44,4 +44,20 @@ async function handle(META: Meta, react: MessageReaction) {
     return;
 }
 
-export { handle };
+async function configureStarChannel(META: Meta, message: Message) {
+
+    const args = META.commandArgs;
+    const guildId = message.guildId;
+    if (!guildId || !args || args.length < 1) return;
+
+    prisma.server.update({
+        where: {
+            guildId: guildId
+        },
+        data: {
+            starId: args[0]
+        }
+    });
+}
+
+export { handle, configureStarChannel };
