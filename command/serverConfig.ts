@@ -2,9 +2,6 @@ import { Message } from "discord.js";
 import { Meta } from "./interfaces";
 import { setAlias } from "./configs/handle";
 
-function setServerAlias(newAlias: string, message: Message) {
-    // TODO:
-}
 
 function enableAnon(message: Message, isGlobal = false) {
     // TODO:
@@ -24,7 +21,7 @@ export function configureServer(META: Meta, message: Message) {
         switch (META.commandArgs[0]) {
             // Setup channel alias
             case "set-alias":
-                setAlias(META.commandArgs[1], message);
+                setAlias(META, message);
                 break;
             // Setup server alias
             case "set-server-alias":
