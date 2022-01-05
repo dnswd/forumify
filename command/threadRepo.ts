@@ -3,7 +3,7 @@ import { Meta } from "./interfaces";
 
 function delegate(META: Meta, react: ThreadChannel) {
 
-    // TODO
+    // TODO: Set an alias for anonymous user
 }
 
 export default { delegate };

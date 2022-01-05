@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import { Meta } from "./interfaces";
-import { setAlias } from "./configs/handle";
+import { setAlias, setServerAlias } from "./configs/handle";
 import { configureAutoThread } from "./auto-thread/handle";
 import { configureStarChannel } from "./starred-message/handle";
 
@@ -23,6 +23,7 @@ export function configureServer(META: Meta, message: Message) {
                 break;
             // Setup server alias
             case "set-server-alias":
+                setServerAlias(META, message);
                 break;
             // Enable anonymous message
             case "allow-anon":
