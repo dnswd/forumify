@@ -12,6 +12,7 @@ model Server {
   channels    Channels[] @relation(name: "ServerChannels")
   starChannel Channels   @relation(name: "StarChannel", fields: [starId], references: [channelId])
   starId      String
+  alias       String?    @unique @db.VarChar(255)
 }
 
 model Channels {
