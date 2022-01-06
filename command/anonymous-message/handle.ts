@@ -10,8 +10,6 @@ async function configureAnonChannel(META: Meta, message: Message, disable = fals
     const alias = META.commandArgs[1];
     if (!alias || alias.length > 255) return;
 
-    // TODO: Handle taken alias
-
     if (disable) {
         // Unregister the channel
 
@@ -32,24 +30,28 @@ async function configureAnonChannel(META: Meta, message: Message, disable = fals
         // Make sure server is already recorded
         registerServerInfo(message);
 
-        // Register the channel
-        const channelId = await prisma.channels.update({
-            where: {
-                channelId: message.channelId
-            },
-            data: {
-                alias: alias
-            }
-        });
+        try {
+            // Register the channel
+            const channelId = await prisma.channels.update({
+                where: {
+                    channelId: message.channelId
+                },
+                data: {
+                    alias: alias
+                }
+            });
 
-        if (!channelId) {
-            console.error("ChannelId is empty. There might be a bug");
-            console.error(channelId);
-            console.error(message);
-            return;
+            if (!channelId) {
+                console.error("ChannelId is empty. There might be a bug");
+                console.error(channelId);
+                console.error(message);
+            }
+
+        } catch (error) {
+            console.error("Alias is taken");
+            console.error(error);
         }
     }
-
 }
 
 async function receiveAnon(META: Meta, message: Message) {
