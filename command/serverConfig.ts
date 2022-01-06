@@ -15,7 +15,7 @@ function disableAnon(message: Message, isGlobal = false) {
 
 export function configureServer(META: Meta, message: Message) {
 
-    if (META.commandArgs && META.commandArgs.length > 1) {
+    if (META.commandArgs) {
         switch (META.commandArgs[0]) {
             // Setup channel alias
             case "set-alias":

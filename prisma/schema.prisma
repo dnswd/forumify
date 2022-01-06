@@ -21,7 +21,7 @@ model Channels {
   alias         String?  @unique @db.VarChar(255)
   server        Server   @relation(name: "ServerChannels", references: [guildId], fields: [serverGuildId])
   starredIn     Server[] @relation("StarChannel")
-  autoThread    Boolean
+  autoThread    Boolean  @default(false)
   serverGuildId String
 }
 
