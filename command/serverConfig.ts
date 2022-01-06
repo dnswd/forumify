@@ -3,9 +3,7 @@ import { Meta } from "./interfaces";
 import { setAlias, setServerAlias } from "./configs/handle";
 import { configureAutoThread } from "./auto-thread/handle";
 import { configureStarChannel } from "./starred-message/handle";
-
-
-
+import { configureAnonChannel } from "./anonymous-message/handle";
 
 export function configureServer(META: Meta, message: Message) {
 
@@ -21,8 +19,10 @@ export function configureServer(META: Meta, message: Message) {
                 break;
             // Enable anonymous message
             case "allow-anon":
+                configureAnonChannel(META, message);
                 break;
             case "disallow-anon":
+                configureAnonChannel(META, message, true);
                 break;
             case "enable-auto-thread":
                 configureAutoThread(message);

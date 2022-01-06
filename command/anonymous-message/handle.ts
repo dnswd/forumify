@@ -10,6 +10,8 @@ async function configureAnonChannel(META: Meta, message: Message, disable = fals
     const alias = META.commandArgs[1];
     if (!alias || alias.length > 255) return;
 
+    // TODO: Handle taken alias
+
     if (disable) {
         // Unregister the channel
 
@@ -19,7 +21,7 @@ async function configureAnonChannel(META: Meta, message: Message, disable = fals
                     channelId: message.channelId
                 },
                 data: {
-                    alias: alias
+                    alias: null
                 }
             });
         } catch (error) {
@@ -50,4 +52,35 @@ async function configureAnonChannel(META: Meta, message: Message, disable = fals
 
 }
 
-export { configureAnonChannel };
+async function receiveAnon(META: Meta, message: Message) {
+    if (!META.commandArgs || META.commandArgs.length < 2) return;
+
+    try {
+        const result = await prisma.channels.findUnique({
+            select: {
+                channelId: true
+            },
+            where: {
+                alias: META.commandArgs[0]
+            }
+        });
+
+        if (!result) return;
+
+        const attachments: string[] = [];
+        message.attachments.forEach((v) => { attachments.push(v.url); });
+
+        const channel = message.client.channels.fetch(result.channelId);
+        if (!(channel instanceof TextChannel)) return;
+
+        channel.send({
+            content: META.commandArgs.slice(1).join(" "),
+            files: attachments
+        });
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export { configureAnonChannel, receiveAnon };

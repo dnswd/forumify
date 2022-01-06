@@ -1,6 +1,7 @@
 import { Message } from "discord.js";
 import { Meta } from "./interfaces";
 import { configureServer } from "./serverConfig";
+import { receiveAnon } from "./anonymous-message/handle";
 import { resolveAutoThread } from "./auto-thread/handle";
 
 function sendHelp(message: Message) {
@@ -50,7 +51,8 @@ function delegate(META: Meta, message: Message) {
             break;
         case "/anon":
             // Send anonymous message
-            // TODO
+            if (META.fromGuild || !META.commandArgs) return;
+            receiveAnon(META, message);
             break;
         case "/config":
             // Configure Forumify 
