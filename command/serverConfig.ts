@@ -22,11 +22,7 @@ export function configureServer(META: Meta, message: Message) {
             // Enable anonymous message
             case "allow-anon":
                 break;
-            case "allow-anon-globally":
-                break;
             case "disallow-anon":
-                break;
-            case "disallow-anon-globally":
                 break;
             case "enable-auto-thread":
                 configureAutoThread(message);
