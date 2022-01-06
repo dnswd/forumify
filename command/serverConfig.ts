@@ -5,13 +5,7 @@ import { configureAutoThread } from "./auto-thread/handle";
 import { configureStarChannel } from "./starred-message/handle";
 
 
-function enableAnon(message: Message, isGlobal = false) {
-    // TODO:
-}
 
-function disableAnon(message: Message, isGlobal = false) {
-    // TODO:
-}
 
 export function configureServer(META: Meta, message: Message) {
 
