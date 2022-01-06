@@ -25,7 +25,7 @@ async function configureAutoThread(message: Message, disable = false) {
 
     } else {
         // Make sure server is already recorded
-        registerServerInfo(message);
+        await registerServerInfo(message);
 
         // Register the channel
         const channelId = await prisma.channels.update({

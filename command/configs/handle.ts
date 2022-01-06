@@ -3,13 +3,13 @@ import { Meta } from "../interfaces";
 import { registerServerInfo } from "../utils";
 import prisma from "../../prisma/client";
 
-function setAlias(META: Meta, message: Message) {
+async function setAlias(META: Meta, message: Message) {
 
     const args = META.commandArgs;
     if (!args || args?.length < 1 || !META.fromGuild) return;
 
     // Make sure server is already recorded
-    registerServerInfo(message);
+    await registerServerInfo(message);
 
     prisma.channels.update({
         where: {
@@ -21,7 +21,7 @@ function setAlias(META: Meta, message: Message) {
     });
 }
 
-function setServerAlias(META: Meta, message: Message) {
+async function setServerAlias(META: Meta, message: Message) {
 
     const guildId = message.guildId;
     const args = META.commandArgs;
@@ -29,7 +29,7 @@ function setServerAlias(META: Meta, message: Message) {
     if (!args || args?.length < 1 || !META.fromGuild) return;
 
     // Make sure server is already recorded
-    registerServerInfo(message);
+    await registerServerInfo(message);
 
     prisma.server.update({
         where: {

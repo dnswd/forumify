@@ -28,7 +28,7 @@ async function configureAnonChannel(META: Meta, message: Message, disable = fals
 
     } else {
         // Make sure server is already recorded
-        registerServerInfo(message);
+        await registerServerInfo(message);
 
         try {
             // Register the channel
