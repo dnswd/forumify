@@ -17,12 +17,20 @@ model Server {
 }
 
 model Channels {
-  channelId     String   @id
-  alias         String?  @unique @db.VarChar(255)
-  server        Server   @relation(name: "ServerChannels", references: [guildId], fields: [serverGuildId])
-  starredIn     Server[] @relation("StarChannel")
-  autoThread    Boolean  @default(false)
+  channelId     String    @id
+  alias         String?   @unique @db.VarChar(255)
+  server        Server    @relation(name: "ServerChannels", references: [guildId], fields: [serverGuildId])
+  starredIn     Server[]  @relation("StarChannel")
+  autoThread    Boolean   @default(false)
   serverGuildId String
+  Threads       Threads[]
+}
+
+model Threads {
+  Id              Int      @id @default(autoincrement())
+  threadId        String
+  channel         Channels @relation(fields: [threadChannelId], references: [channelId])
+  threadChannelId String
 }
 
 model Students {
